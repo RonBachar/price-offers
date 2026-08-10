@@ -395,21 +395,29 @@
 
   .closing{
     text-align:center;
-    padding:34px 20px;
-    background:var(--paper-tint);
-    border:1px solid var(--line-soft);
+    padding:58px 46px;
+    border:none;
+    background:linear-gradient(135deg,#1d1147 0%,#271a63 34%,#160f33 70%,#0a0910 100%);
+    color:#fff;
   }
   .closing p{
-    font-size:15px;
-    color:var(--ink);
-    max-width:60ch;
+    font-size:15.5px;
+    color:rgba(255,255,255,.84);
+    max-width:58ch;
     margin:0 auto;
   }
+  .closing .rule{
+    width:34px;
+    height:2px;
+    background:#7d5ff0;
+    margin:22px auto 0;
+  }
   .closing .cta-line{
-    margin-top:12px;
-    font-weight:700;
-    font-size:16px;
-    color:var(--accent);
+    margin-top:20px;
+    font-weight:800;
+    font-size:18.5px;
+    letter-spacing:-.01em;
+    color:#c5b2ff;
   }
 
   .sign-grid{
@@ -486,7 +494,7 @@
   .approve-btn{
     margin-top:18px;
     width:100%;
-    background:var(--ink);
+    background:var(--accent);
     color:#fff;
     border:none;
     padding:13px 20px;
@@ -495,7 +503,7 @@
     font-weight:700;
     cursor:pointer;
   }
-  .approve-btn:hover{background:var(--accent);}
+  .approve-btn:hover{background:var(--ink);}
   .approve-btn:disabled{background:var(--ok);cursor:default;}
 
   .form-status{
@@ -545,6 +553,8 @@
     .gift-row{flex-direction:column;}
     .payment-box{flex-direction:column;gap:14px;}
     .payment-box .pay-divider{display:none;}
+    .closing{padding:42px 26px;}
+    .closing p{font-size:15px;}
     .sign-grid{grid-template-columns:1fr;gap:20px;}
   }
 
@@ -920,6 +930,7 @@
   <!-- ===================== סגירה ===================== -->
   <section class="closing">
     <p>הקמת חנות אונליין היא לא רק פרויקט טכנולוגי, היא הדרך להפוך עסק ותיק ומוכר לזרוע מכירה דיגיטלית שעובדת מסביב לשעון. בסטודיו מטרה נבנית חנות שמתאימה בדיוק לאופי העסק, לקהל שלו ולדרך שבה הוא מוכר, מהאפיון ועד ההשקה, כדי לוודא שהחנות החדשה משרתת את המטרה העסקית.</p>
+    <div class="rule"></div>
     <p class="cta-line">אז קדימה, יוצאים לדרך?</p>
   </section>
 
@@ -930,14 +941,14 @@
 
     <div class="sign-grid">
       <div class="sign-col studio-sign">
-        <div class="sign-col-label">מאשר מטעם הסטודיו</div>
+        <div class="sign-col-label">הסטודיו</div>
         <img src="assets/signature-ron.png" alt="חתימת רון בכר" class="studio-sig-img">
         <div class="sign-name">רון בכר, סטודיו מטרה</div>
         <div class="sign-date">[DD.MM.YYYY]</div>
       </div>
 
       <div class="sign-col client-sign">
-        <div class="sign-col-label">מאשר מטעם הלקוח</div>
+        <div class="sign-col-label">הלקוח</div>
 
         <form id="approvalForm"
               name="quote-approval"
