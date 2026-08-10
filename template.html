@@ -514,6 +514,39 @@
   .form-status.error{color:#b3392f;}
   .form-status.success{color:var(--ok);}
 
+  .client-sig-img{
+    display:block;
+    width:100%;
+    height:150px;
+    object-fit:contain;
+    object-position:center;
+    border:1px solid var(--line);
+    background:#fff;
+    margin-bottom:10px;
+  }
+  .signed-note{
+    margin-top:14px;
+    padding:11px 14px;
+    background:var(--ok-bg);
+    border:1px solid #cfe3d6;
+    color:var(--ok);
+    font-size:12.5px;
+    font-weight:600;
+  }
+  .save-pdf-btn{
+    margin-top:12px;
+    width:100%;
+    background:#fff;
+    color:var(--accent);
+    border:1.5px solid var(--accent);
+    padding:12px 20px;
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .save-pdf-btn:hover{background:var(--accent);color:#fff;}
+
   .hp-field{display:none;}
   .visually-hidden{
     position:absolute;
@@ -648,7 +681,7 @@
     table.compare{page-break-inside:avoid;}
     .closing{break-inside:avoid;}
     .sign-grid{break-inside:avoid;}
-    .sig-clear-btn, .approve-btn, .form-status{display:none !important;}
+    .sig-clear-btn, .approve-btn, .form-status, .save-pdf-btn{display:none !important;}
     footer.doc-footer{break-inside:avoid;}
     a{color:inherit;text-decoration:none;}
     .mobile-only{display:none !important;}
@@ -1105,6 +1138,8 @@
     setStatus('שולח...');
     btn.disabled = true;
 
+    var signatureDataUrl = canvas.toDataURL('image/png');
+
     canvas.toBlob(function(blob){
       if (!blob){
         setStatus('לא ניתן היה לעבד את החתימה. נסה שוב.', 'error');
@@ -1122,8 +1157,10 @@
       fetch(window.location.pathname, { method: 'POST', body: fd })
         .then(function(res){
           if (!res.ok) throw new Error('Netlify responded ' + res.status);
-          setStatus('ההצעה אושרה בהצלחה. עותק אישור נשלח לאימייל שלך.', 'success');
           if (SEND_CLIENT_COPY) sendClientCopy(name, email, dateInput.value);
+          renderSignedState(name, dateInput.value, signatureDataUrl);
+          // פתיחת דיאלוג השמירה, כדי שהלקוח לא ייצא בלי עותק
+          setTimeout(function(){ try { window.print(); } catch(e){} }, 700);
         })
         .catch(function(){
           setStatus('שגיאה בשליחה. נסה שוב או צור קשר טלפוני.', 'error');
@@ -1131,6 +1168,41 @@
         });
     }, 'image/png');
   });
+
+  // מחליף את אזור החתימה בתצוגה סטטית, כדי שההדפסה תשקף מסמך חתום
+  function renderSignedState(name, date, dataUrl){
+    var col = document.querySelector('.client-sign');
+    if (!col) return;
+
+    function el(tag, cls, text){
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text != null) n.textContent = text;   // textContent, לא innerHTML: שם הלקוח הוא קלט חופשי
+      return n;
+    }
+
+    var img = document.createElement('img');
+    img.className = 'client-sig-img';
+    img.src = dataUrl;
+    img.alt = 'חתימת הלקוח';
+
+    col.innerHTML = '';
+    col.appendChild(el('div', 'sign-col-label', 'הלקוח'));
+    col.appendChild(img);
+    col.appendChild(el('div', 'sign-name', name));
+    col.appendChild(el('div', 'sign-date', formatDate(date)));
+    col.appendChild(el('div', 'signed-note', 'ההצעה אושרה ונשלחה לסטודיו. מומלץ לשמור עותק PDF לתיעוד.'));
+
+    var save = el('button', 'save-pdf-btn', 'שמירת ההצעה החתומה כ-PDF');
+    save.type = 'button';
+    save.addEventListener('click', function(){ window.print(); });
+    col.appendChild(save);
+  }
+
+  function formatDate(iso){
+    var p = String(iso).split('-');
+    return p.length === 3 ? p[2] + '.' + p[1] + '.' + p[0] : iso;
+  }
 
   function sendClientCopy(name, email, date){
     if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY.indexOf('PASTE_') === 0) return;
