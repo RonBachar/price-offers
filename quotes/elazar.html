@@ -505,6 +505,17 @@
   .form-status.error{color:#b3392f;}
   .form-status.success{color:var(--ok);}
 
+  .hp-field{display:none;}
+  .visually-hidden{
+    position:absolute;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    white-space:nowrap;
+    border:0;
+  }
+
   footer.doc-footer{
     margin-top:44px;
     padding-top:20px;
@@ -920,15 +931,34 @@
 
       <div class="sign-col client-sign">
         <div class="sign-col-label">מאשר מטעם הלקוח</div>
-        <canvas id="sigPad" class="sig-pad"></canvas>
-        <button type="button" id="sigClear" class="sig-clear-btn">נקה חתימה</button>
-        <div class="sign-fields">
-          <label>שם מלא<input type="text" id="clientName" autocomplete="name"></label>
-          <label>אימייל לאישור<input type="email" id="clientEmail" autocomplete="email"></label>
-          <label>תאריך<input type="date" id="clientDate"></label>
-        </div>
-        <button type="button" id="approveBtn" class="approve-btn">אני מאשר את ההצעה</button>
-        <div id="formStatus" class="form-status" role="status"></div>
+
+        <form id="approvalForm"
+              name="quote-approval"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              enctype="multipart/form-data"
+              novalidate>
+
+          <input type="hidden" name="form-name" value="quote-approval">
+          <input type="hidden" name="quote_name" id="quoteName">
+          <p class="hp-field"><label>אל תמלא שדה זה: <input name="bot-field" tabindex="-1"></label></p>
+
+          <canvas id="sigPad" class="sig-pad"></canvas>
+          <button type="button" id="sigClear" class="sig-clear-btn">נקה חתימה</button>
+
+          <input type="file" name="signature" id="signatureFile" accept="image/png"
+                 class="visually-hidden" tabindex="-1" aria-hidden="true">
+
+          <div class="sign-fields">
+            <label>שם מלא<input type="text" name="client_name" id="clientName" autocomplete="name"></label>
+            <label>אימייל לאישור<input type="email" name="client_email" id="clientEmail" autocomplete="email"></label>
+            <label>תאריך<input type="date" name="client_date" id="clientDate"></label>
+          </div>
+
+          <button type="submit" id="approveBtn" class="approve-btn">אני מאשר את ההצעה</button>
+          <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
+        </form>
       </div>
     </div>
   </section>
@@ -947,15 +977,27 @@
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
 <script>
 (function(){
+  // החתימה נשמרת כקובץ PNG אמיתי דרך Netlify Forms (ראה CLAUDE.md).
+  // Web3Forms משמש כאן רק לשליחת עותק אישור ללקוח, בלי החתימה.
   var WEB3FORMS_ACCESS_KEY = "88de6efc-90cc-4d9d-8f87-4fcde9b4d8ad";
+  var SEND_CLIENT_COPY = true;
 
-  var canvas = document.getElementById('sigPad');
-  var signaturePad = new SignaturePad(canvas, { backgroundColor:'rgb(255,255,255)', penColor:'#1c1c1c' });
+  var canvas       = document.getElementById('sigPad');
+  var form         = document.getElementById('approvalForm');
+  var fileInput    = document.getElementById('signatureFile');
+  var dateInput    = document.getElementById('clientDate');
+  var statusEl     = document.getElementById('formStatus');
+  var btn          = document.getElementById('approveBtn');
+
+  var signaturePad = new SignaturePad(canvas, {
+    backgroundColor: 'rgb(255,255,255)',
+    penColor: '#1c1c1c'
+  });
 
   function resizeCanvas(){
     var ratio = Math.max(window.devicePixelRatio || 1, 1);
-    var data = signaturePad.toData();
-    canvas.width = canvas.offsetWidth * ratio;
+    var data  = signaturePad.toData();
+    canvas.width  = canvas.offsetWidth  * ratio;
     canvas.height = canvas.offsetHeight * ratio;
     canvas.getContext('2d').scale(ratio, ratio);
     signaturePad.clear();
@@ -964,76 +1006,97 @@
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
 
-  document.getElementById('sigClear').addEventListener('click', function(){ signaturePad.clear(); });
+  document.getElementById('sigClear').addEventListener('click', function(){
+    signaturePad.clear();
+  });
 
-  var dateInput = document.getElementById('clientDate');
   dateInput.value = new Date().toISOString().slice(0, 10);
+  document.getElementById('quoteName').value = document.title;
 
-  document.getElementById('approveBtn').addEventListener('click', function(){
-    var status = document.getElementById('formStatus');
-    var btn = document.getElementById('approveBtn');
-    var name = document.getElementById('clientName').value.trim();
+  function setStatus(msg, kind){
+    statusEl.textContent = msg;
+    statusEl.className = 'form-status' + (kind ? ' ' + kind : '');
+  }
+
+  function safeFileName(name){
+    var cleaned = name.replace(/[^\p{L}\p{N}_-]+/gu, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    return 'signature-' + (cleaned || 'client') + '.png';
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var name  = document.getElementById('clientName').value.trim();
     var email = document.getElementById('clientEmail').value.trim();
 
     if (signaturePad.isEmpty()){
-      status.textContent = 'נא לחתום לפני האישור.';
-      status.className = 'form-status error';
+      setStatus('נא לחתום לפני האישור.', 'error');
       return;
     }
     if (!name || !email){
-      status.textContent = 'נא למלא שם ואימייל.';
-      status.className = 'form-status error';
+      setStatus('נא למלא שם ואימייל.', 'error');
       return;
     }
-    if (WEB3FORMS_ACCESS_KEY.indexOf('PASTE_YOUR') === 0){
-      status.textContent = 'הטופס לא מחובר עדיין. יש להשלים הגדרת Access Key.';
-      status.className = 'form-status error';
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+      setStatus('כתובת האימייל אינה תקינה.', 'error');
       return;
     }
 
-    status.textContent = 'שולח...';
-    status.className = 'form-status';
+    // הגנה: ב-file:// הדפדפן מתעלם מ-POST ומחזיר 200, מה שיוצר "אישור" שקרי.
+    // Netlify Forms פעיל רק באתר שהועלה בפועל.
+    if (location.protocol !== 'http:' && location.protocol !== 'https:'){
+      setStatus('הטופס פעיל רק בגרסה המקוונת של ההצעה. יש לפתוח את הקישור שנשלח מהסטודיו.', 'error');
+      return;
+    }
+
+    setStatus('שולח...');
     btn.disabled = true;
 
-    var signatureDataUrl = canvas.toDataURL('image/png');
+    canvas.toBlob(function(blob){
+      if (!blob){
+        setStatus('לא ניתן היה לעבד את החתימה. נסה שוב.', 'error');
+        btn.disabled = false;
+        return;
+      }
 
-    (function(){
-      var payload = {
-        access_key: WEB3FORMS_ACCESS_KEY,
-        subject: 'אישור הצעת מחיר: ' + document.title,
-        from_name: name,
-        email: email,
-        client_name: name,
-        client_email: email,
-        client_date: dateInput.value,
-        quote_name: document.title,
-        message: name + ' אישר/ה את הצעת המחיר בתאריך ' + dateInput.value + '. תמונת החתימה מצורפת בשדה signature_image (Base64).',
-        signature_image: signatureDataUrl
-      };
+      var file = new File([blob], safeFileName(name), { type: 'image/png' });
 
-      fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-          if (data.success){
-            status.textContent = 'ההצעה אושרה בהצלחה. עותק אישור נשלח לאימייל שלך.';
-            status.className = 'form-status success';
-          } else {
-            status.textContent = 'שגיאה בשליחה. נסה שוב או צור קשר טלפוני.';
-            status.className = 'form-status error';
-            btn.disabled = false;
-          }
+      // ה-input נשאר ב-HTML כדי ש-Netlify יזהה שדה קובץ בזמן ה-deploy.
+      // הערך עצמו נדרס כאן, כי לא ניתן להשים קובץ ל-input באופן ישיר בכל הדפדפנים.
+      var fd = new FormData(form);
+      fd.set('signature', file, file.name);
+
+      fetch(window.location.pathname, { method: 'POST', body: fd })
+        .then(function(res){
+          if (!res.ok) throw new Error('Netlify responded ' + res.status);
+          setStatus('ההצעה אושרה בהצלחה. עותק אישור נשלח לאימייל שלך.', 'success');
+          if (SEND_CLIENT_COPY) sendClientCopy(name, email, dateInput.value);
         })
         .catch(function(){
-          status.textContent = 'שגיאה בחיבור. נסה שוב.';
-          status.className = 'form-status error';
+          setStatus('שגיאה בשליחה. נסה שוב או צור קשר טלפוני.', 'error');
           btn.disabled = false;
         });
-    })();
+    }, 'image/png');
   });
+
+  function sendClientCopy(name, email, date){
+    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY.indexOf('PASTE_') === 0) return;
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject: 'אישור קבלת הצעת מחיר: ' + document.title,
+        from_name: 'סטודיו מטרה',
+        email: email,
+        client_name: name,
+        client_date: date,
+        quote_name: document.title,
+        message: name + ' אישר/ה את הצעת המחיר בתאריך ' + date +
+                 '. החתימה נשמרה במערכת הסטודיו.'
+      })
+    }).catch(function(){ /* עותק האישור אינו חוסם את האישור עצמו */ });
+  }
 })();
 </script>
 </body>

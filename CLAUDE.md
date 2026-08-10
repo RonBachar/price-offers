@@ -36,10 +36,34 @@ price-offers/
 
 - בצד הסטודיו: `assets/signature-ron.png` מוטבעת קבוע עם השם "רון בכר, סטודיו מטרה" ותאריך ההצעה.
 - בצד הלקוח: `signature_pad.js` (טעון מ-CDN) עם canvas לחתימה, שדות שם/אימייל/תאריך, וכפתור "אני מאשר את ההצעה".
-- בלחיצה על הכפתור: החתימה מומרת ל-Base64 PNG (`canvas.toDataURL`) ונשלחת כשדה טקסט `signature_image` בתוך בקשת JSON רגילה (`Content-Type: application/json`) אל Web3Forms, יחד עם שם, אימייל, תאריך ושם ההצעה.
-- **חשוב: אין לשלוח את החתימה כקובץ מצורף (`multipart/form-data` עם Blob/File).** נבדק בפועל וזה נכשל עם השגיאה `"You are trying to use a Pro feature, Please upgrade to use file uploads."` — צירוף קבצים ב-Web3Forms דורש תוכנית בתשלום. הפתרון היחיד שעובד בתוכנית החינמית הוא Base64 כטקסט.
-- שדה `email` בטופס מוגדר לאימייל שהלקוח הזין, כדי שה-Reply-To/Autoresponder של Web3Forms יוכל לשלוח אליו עותק אישור.
-- נבדק ואומת בפועל: שליחה מלאה מ-`quotes/elazar.html` עברה בהצלחה מול ה-Access Key האמיתי (תגובת API: `success:true`).
+
+### הארכיטקטורה: Netlify Forms (ראשי) + Web3Forms (עותק ללקוח)
+
+- **החתימה עצמה נשלחת כקובץ PNG אמיתי דרך Netlify Forms.** הטופס הוא `<form name="quote-approval" data-netlify="true" enctype="multipart/form-data">` עם `<input type="file" name="signature">`.
+- ב-submit: `canvas.toBlob()` יוצר PNG, נעטף ב-`File`, ומוזרק ל-FormData דרך `fd.set('signature', file, file.name)`. ה-POST הולך ל-`window.location.pathname`.
+- ה-`<input type="file">` חייב להישאר ב-HTML הסטטי (גם אם מוסתר) — Netlify מזהה שדות טפסים בזמן ה-deploy מתוך ה-HTML. בלעדיו שדה הקובץ לא ייקלט.
+- שדות חובה שאסור להסיר: `form-name` (נדרש לשליחת AJAX), ו-honeypot `bot-field`.
+- הצפייה בחתימה: דשבורד Netlify ← Forms ← quote-approval ← הורדת ה-PNG.
+
+### מגבלות שנבדקו בפועל, אל תחזור עליהן
+
+- **Web3Forms לא תומך בצירוף קבצים בתוכנית החינמית.** ניסיון לשלוח Blob/File כ-`multipart/form-data` נכשל עם `"You are trying to use a Pro feature, Please upgrade to use file uploads."`
+- **Base64 בגוף המייל אינו פתרון טוב.** נבדק ועבד טכנית, אבל המחרוזת מגיעה כטקסט ארוך שלקוחות מייל שוברים לשורות, כך שהיא עלולה לא להיפתח כתמונה. לכן ננטש לטובת Netlify.
+- **`fetch` ל-`file://` מחזיר 200 OK ומתעלם מה-POST.** זה יצר "אישור" שקרי כשפותחים את הקובץ מקומית. לכן קיימת בקוד בדיקת `location.protocol` שחוסמת שליחה מחוץ ל-http/https. **אל תסיר אותה.**
+- מסקנה מעשית: **אי אפשר לבדוק את הטופס מקומית.** הבדיקה האמיתית היחידה היא באתר שהועלה ל-Netlify.
+
+### עותק אישור ללקוח
+
+- Netlify Forms בתוכנית החינמית **אינו שולח autoresponder ללקוח**, רק התראה לכתובת קבועה.
+- לכן לאחר שליחה מוצלחת ל-Netlify מתבצעת קריאה שנייה ל-Web3Forms (JSON, בלי החתימה) שמטרתה היחידה היא עותק האישור ללקוח. שדה `email` מוגדר לכתובת שהלקוח הזין.
+- הקריאה השנייה אינה חוסמת: אם היא נכשלת, האישור מול Netlify עדיין תקף.
+- לכיבוי: `SEND_CLIENT_COPY = false` בראש הסקריפט.
+
+### הגדרות חד-פעמיות בדשבורד (לא בקוד)
+
+1. **Netlify ← Forms ← Notifications**: הוסף התראת אימייל ל-wendydigitalstudios@gmail.com, אחרת שליחות ייאספו בדשבורד בלי שתדע.
+2. **Web3Forms ← Autoresponder**: הפעל, כדי שהלקוח יקבל את עותק האישור.
+3. מגבלת התוכנית החינמית של Netlify Forms: 100 שליחות בחודש.
 
 ### הגדרת Web3Forms
 
