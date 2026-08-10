@@ -1140,6 +1140,12 @@
 
     var signatureDataUrl = canvas.toDataURL('image/png');
 
+    // לתצוגה ולהדפסה: וקטור, כדי שהחתימה תישאר חדה בכל גודל הדפסה.
+    // הקובץ שנשמר ב-Netlify נשאר PNG, שנפתח בכל מקום.
+    var signatureVector;
+    try { signatureVector = signaturePad.toDataURL('image/svg+xml'); }
+    catch(e){ signatureVector = signatureDataUrl; }
+
     canvas.toBlob(function(blob){
       if (!blob){
         setStatus('לא ניתן היה לעבד את החתימה. נסה שוב.', 'error');
@@ -1158,7 +1164,7 @@
         .then(function(res){
           if (!res.ok) throw new Error('Netlify responded ' + res.status);
           if (SEND_CLIENT_COPY) sendClientCopy(name, email, dateInput.value);
-          renderSignedState(name, dateInput.value, signatureDataUrl);
+          renderSignedState(name, dateInput.value, signatureVector);
           // פתיחת דיאלוג השמירה, כדי שהלקוח לא ייצא בלי עותק
           setTimeout(function(){ try { window.print(); } catch(e){} }, 700);
         })
