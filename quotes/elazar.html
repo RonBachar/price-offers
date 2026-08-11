@@ -182,7 +182,6 @@
   }
   table.compare thead th.row-label{background:var(--ink);color:#fff;}
   table.compare thead th .pkg-name{display:block;font-size:15px;font-weight:800;}
-  table.compare thead th .pkg-sub{display:block;margin-top:3px;font-size:10.5px;font-weight:400;letter-spacing:.03em;color:#cfc9f5;text-transform:uppercase;}
 
   col.pkg-2{}
   th.recommended, td.recommended{
@@ -192,7 +191,6 @@
   thead th.recommended{
     background:var(--accent);
   }
-  thead th.recommended .pkg-sub{color:#e6e0fb;}
 
   .rec-badge{
     display:inline-block;
@@ -314,7 +312,6 @@
     font-size:12.5px;
     color:var(--ink-soft);
     padding:7px 0;
-    border-bottom:1px solid var(--line-soft);
   }
   .terms-list li:first-child{padding-top:0;}
   .terms-list li::before{
@@ -631,7 +628,6 @@
     }
     .pkg-card.recommended .pkg-card-head{background:var(--accent);}
     .pkg-card-head .pkg-name{font-size:16px;font-weight:800;}
-    .pkg-card-head .pkg-sub{font-size:10.5px;color:#d9d4f7;text-transform:uppercase;letter-spacing:.03em;margin-top:2px;}
     .pkg-card-head .rec-badge{background:#fff;color:var(--accent);margin-bottom:6px;}
 
     .pkg-card-body{padding:6px 18px;}
@@ -738,9 +734,9 @@
         <thead>
           <tr>
             <th class="row-label">השירות</th>
-            <th><span class="pkg-name">חבילה 1</span><span class="pkg-sub">בסיס</span></th>
-            <th class="recommended"><span class="rec-badge">מומלץ</span><span class="pkg-name">חבילה 2</span><span class="pkg-sub">צמיחה</span></th>
-            <th><span class="pkg-name">חבילה 3</span><span class="pkg-sub">אוטומטית</span></th>
+            <th><span class="pkg-name">חבילה 1</span></th>
+            <th class="recommended"><span class="rec-badge">מומלץ</span><span class="pkg-name">חבילה 2</span></th>
+            <th><span class="pkg-name">חבילה 3</span></th>
           </tr>
         </thead>
         <tbody>
@@ -778,7 +774,7 @@
     <!-- Mobile cards -->
     <div class="pkg-cards mobile-only">
       <div class="pkg-card">
-        <div class="pkg-card-head"><div class="pkg-name">חבילה 1</div><div class="pkg-sub">בסיס</div></div>
+        <div class="pkg-card-head"><div class="pkg-name">חבילה 1</div></div>
         <div class="pkg-card-body">
           <div class="pkg-feature"><span class="f-label">שיחת אפיון ואסטרטגיה</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">חווית משתמש (UX)</span><span class="f-val"><span class="yes">✓</span></span></div>
@@ -806,7 +802,7 @@
       </div>
 
       <div class="pkg-card recommended">
-        <div class="pkg-card-head"><span class="rec-badge">מומלץ</span><div class="pkg-name">חבילה 2</div><div class="pkg-sub">צמיחה</div></div>
+        <div class="pkg-card-head"><span class="rec-badge">מומלץ</span><div class="pkg-name">חבילה 2</div></div>
         <div class="pkg-card-body">
           <div class="pkg-feature"><span class="f-label">שיחת אפיון ואסטרטגיה</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">חווית משתמש (UX)</span><span class="f-val"><span class="yes">✓</span></span></div>
@@ -834,7 +830,7 @@
       </div>
 
       <div class="pkg-card">
-        <div class="pkg-card-head"><div class="pkg-name">חבילה 3</div><div class="pkg-sub">אוטומטית</div></div>
+        <div class="pkg-card-head"><div class="pkg-name">חבילה 3</div></div>
         <div class="pkg-card-body">
           <div class="pkg-feature"><span class="f-label">שיחת אפיון ואסטרטגיה</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">חווית משתמש (UX)</span><span class="f-val"><span class="yes">✓</span></span></div>
