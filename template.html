@@ -50,49 +50,47 @@
 
   /* ---------- Header ---------- */
   .doc-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:32px;
     padding-bottom:28px;
     border-bottom:2px solid var(--ink);
     margin-bottom:36px;
   }
 
+  .doc-header .logo-block{
+    display:flex;
+    justify-content:center;
+    margin-bottom:22px;
+  }
   .doc-header .logo-block svg{
-    width:190px;
+    width:210px;
     height:auto;
     display:block;
   }
 
   .doc-meta{
-    text-align:right;
     direction:rtl;
     font-size:13px;
     color:var(--ink-soft);
-    padding-top:4px;
   }
   .doc-meta .doc-kicker{
-    text-align:right;
+    text-align:center;
     font-size:10.5px;
     letter-spacing:.12em;
     text-transform:uppercase;
     color:var(--accent);
     font-weight:700;
-    margin-bottom:6px;
+    margin-bottom:14px;
   }
-  .doc-meta table{border-collapse:collapse;margin-right:0;margin-left:auto;}
+  .doc-meta table{border-collapse:collapse;width:100%;}
   .doc-meta td{
-    padding:2px 0;
+    padding:3px 0;
     font-size:13px;
     color:var(--ink-soft);
-    text-align:right;
-    white-space:nowrap;
   }
   .doc-meta td.label{
     color:var(--ink-faint);
-    padding-left:14px;
     font-weight:400;
+    text-align:right;
+    white-space:nowrap;
   }
   .doc-meta td.value{
     font-weight:600;
@@ -245,7 +243,7 @@
   /* ---------- Info blocks ---------- */
   .seo-grid{
     display:grid;
-    grid-template-columns:1fr 1fr 1fr;
+    grid-template-columns:1fr 1fr;
     gap:0;
     border:1px solid var(--line);
   }
@@ -757,7 +755,7 @@
           <tr><td class="row-label">עמוד תודה על הרכישה ממותג</td><td><span class="yes">✓</span></td><td class="recommended"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td class="row-label">באנר משלוח חינם / מבצע דינמי</td><td><span class="yes">✓</span></td><td class="recommended"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td class="row-label">עמודי מדיניות (משלוחים, החזרות, תקנון)</td><td class="cell-text">עמוד אחד</td><td class="recommended cell-text">שלושה עמודים</td><td class="cell-text">שלושה עמודים</td></tr>
-          <tr><td class="row-label">חבילת SEO</td><td class="cell-text">יסודות</td><td class="recommended cell-text">מורחבת</td><td class="cell-text">מתקדמת</td></tr>
+          <tr><td class="row-label">חבילת SEO</td><td class="cell-text">בסיסי</td><td class="recommended cell-text">מתקדם</td><td class="cell-text">מתקדם</td></tr>
           <tr><td class="row-label">חיבור Google Analytics 4 + מעקב רכישות</td><td><span class="no">–</span></td><td class="recommended"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td class="row-label">לכידת לידים לניוזלטר לגוגל שיטס</td><td><span class="no">–</span></td><td class="recommended"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td class="row-label">ביקורות מוצר עם דירוג כוכבים</td><td><span class="no">–</span></td><td class="recommended"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
@@ -793,7 +791,7 @@
           <div class="pkg-feature"><span class="f-label">עמוד תודה ממותג</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">באנר משלוח חינם / מבצע</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">עמודי מדיניות</span><span class="f-val">עמוד אחד</span></div>
-          <div class="pkg-feature"><span class="f-label">חבילת SEO</span><span class="f-val">יסודות</span></div>
+          <div class="pkg-feature"><span class="f-label">חבילת SEO</span><span class="f-val">בסיסי</span></div>
           <div class="pkg-feature"><span class="f-label">Google Analytics 4</span><span class="f-val"><span class="no">–</span></span></div>
           <div class="pkg-feature"><span class="f-label">לכידת לידים לניוזלטר</span><span class="f-val"><span class="no">–</span></span></div>
           <div class="pkg-feature"><span class="f-label">ביקורות מוצר</span><span class="f-val"><span class="no">–</span></span></div>
@@ -821,7 +819,7 @@
           <div class="pkg-feature"><span class="f-label">עמוד תודה ממותג</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">באנר משלוח חינם / מבצע</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">עמודי מדיניות</span><span class="f-val">שלושה עמודים</span></div>
-          <div class="pkg-feature"><span class="f-label">חבילת SEO</span><span class="f-val">מורחבת</span></div>
+          <div class="pkg-feature"><span class="f-label">חבילת SEO</span><span class="f-val">מתקדם</span></div>
           <div class="pkg-feature"><span class="f-label">Google Analytics 4</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">לכידת לידים לניוזלטר</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">ביקורות מוצר</span><span class="f-val"><span class="yes">✓</span></span></div>
@@ -849,7 +847,7 @@
           <div class="pkg-feature"><span class="f-label">עמוד תודה ממותג</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">באנר משלוח חינם / מבצע</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">עמודי מדיניות</span><span class="f-val">שלושה עמודים</span></div>
-          <div class="pkg-feature"><span class="f-label">חבילת SEO</span><span class="f-val">מתקדמת</span></div>
+          <div class="pkg-feature"><span class="f-label">חבילת SEO</span><span class="f-val">מתקדם</span></div>
           <div class="pkg-feature"><span class="f-label">Google Analytics 4</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">לכידת לידים לניוזלטר</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">ביקורות מוצר</span><span class="f-val"><span class="yes">✓</span></span></div>
@@ -870,16 +868,12 @@
     <div class="section-head"><span class="section-num">03</span><h2>פירוט חבילות ה-SEO</h2></div>
     <div class="seo-grid">
       <div class="seo-col">
-        <h3>יסודות | חבילה 1</h3>
-        <p>הטמעת תוסף Yoast, מטא-דאטה לעמודי הליבה, מפת אתר (sitemap), והכנת החנות לאינדוקס תקין בגוגל.</p>
+        <h3>SEO בסיסי</h3>
+        <p>הגדרת Focus Keyphrase, כתיבת Meta Title ו-Meta Description, מבנה כותרות H1/H2, Alt לתמונות ו-URL נקי ומובנה.</p>
       </div>
       <div class="seo-col">
-        <h3>מורחבת | חבילה 2</h3>
-        <p>כל היסודות, בתוספת מטא-דאטה לכל הקטגוריות, הטמעת סכמת Product ו-Breadcrumbs לשיפור הנראות בתוצאות החיפוש ובגוגל שופינג.</p>
-      </div>
-      <div class="seo-col">
-        <h3>מתקדמת | חבילה 3</h3>
-        <p>כל המורחבת, בתוספת מחקר מילות מפתח, אופטימיזציה של 10–15 מוצרים מובילים, חיבור Search Console וחיבור Google Merchant Center.</p>
+        <h3>SEO מתקדם</h3>
+        <p>מחקר מילות מפתח ממוקד לעמוד, הטמעת Schema Markup, אופטימיזציית תוכן לפי כוונת חיפוש, טיפול טכני בסיסי, הגדרת מבנה אתר נכון וחיבור ל-Google Search Console.</p>
       </div>
     </div>
   </section>
@@ -997,7 +991,7 @@
       <div class="sign-col studio-sign">
         <div class="sign-col-label">הסטודיו</div>
         <img src="assets/signature-ron.png" alt="חתימת רון בכר" class="studio-sig-img">
-        <div class="sign-name">רון בכר, סטודיו מטרה</div>
+        <div class="sign-name">הסטודיו של רון | מטרה</div>
         <div class="sign-date">[DD.MM.YYYY]</div>
       </div>
 
