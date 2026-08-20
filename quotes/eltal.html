@@ -274,14 +274,12 @@
   .numbered-steps{
     counter-reset:step;
     list-style:none;
-    border-top:1px solid var(--line-soft);
   }
   .numbered-steps li{
     counter-increment:step;
     display:flex;
     gap:16px;
     padding:14px 0;
-    border-bottom:1px solid var(--line-soft);
   }
   .numbered-steps li::before{
     content:counter(step);
@@ -762,7 +760,7 @@
           <tr><td class="row-label">כפתור קביעת פגישה (Calendly)</td><td><span class="yes">✓</span></td><td class="recommended"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td class="row-label">Google Analytics + Tag Manager</td><td><span class="yes">✓</span></td><td class="recommended"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td class="row-label">הסכמת קוקיז + מדיניות פרטיות</td><td><span class="yes">✓</span></td><td class="recommended"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td class="row-label">שימור SEO מהאתר הקיים (301)</td><td class="cell-text">דף הבית בלבד</td><td class="recommended cell-text">כל העמודים הקיימים</td><td class="cell-text">כל העמודים הקיימים</td></tr>
+          <tr><td class="row-label">שימור SEO מהאתר הקיים (301)</td><td class="cell-text">כל העמודים הקיימים</td><td class="recommended cell-text">כל העמודים הקיימים</td><td class="cell-text">כל העמודים הקיימים</td></tr>
           <tr><td class="row-label">נגישות</td><td class="cell-text">תוסף נגישות אוטומטי</td><td class="recommended cell-text">תוסף + התאמות ידניות בעמודים מרכזיים</td><td class="cell-text">תוסף + בדיקה ידנית בכל 18 העמודים</td></tr>
           <tr><td class="row-label">אבטחה</td><td class="cell-text">תוסף אבטחה סטנדרטי</td><td class="recommended cell-text">תוסף + חומת אש ברמת האתר</td><td class="cell-text">תוסף + חומת אש + ניטור פעיל</td></tr>
           <tr><td class="row-label">מהירות טעינה</td><td class="cell-text">דחיסת תמונות וקאשינג</td><td class="recommended cell-text">+ אופטימיזציית מדיה ו-Lazy Loading</td><td class="cell-text">+ CDN + אופטימיזציה מתקדמת</td></tr>
@@ -803,7 +801,7 @@
           <div class="pkg-feature"><span class="f-label">כפתור קביעת פגישה (Calendly)</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">Google Analytics + Tag Manager</span><span class="f-val"><span class="yes">✓</span></span></div>
           <div class="pkg-feature"><span class="f-label">הסכמת קוקיז + מדיניות פרטיות</span><span class="f-val"><span class="yes">✓</span></span></div>
-          <div class="pkg-feature"><span class="f-label">שימור SEO מהאתר הקיים (301)</span><span class="f-val">דף הבית בלבד</span></div>
+          <div class="pkg-feature"><span class="f-label">שימור SEO מהאתר הקיים (301)</span><span class="f-val">כל העמודים הקיימים</span></div>
           <div class="pkg-feature"><span class="f-label">נגישות</span><span class="f-val">תוסף נגישות אוטומטי</span></div>
           <div class="pkg-feature"><span class="f-label">אבטחה</span><span class="f-val">תוסף אבטחה סטנדרטי</span></div>
           <div class="pkg-feature"><span class="f-label">מהירות טעינה</span><span class="f-val">דחיסת תמונות וקאשינג</span></div>
@@ -918,27 +916,9 @@
     </div>
   </section>
 
-  <!-- ===================== 05 מתנות ===================== -->
+  <!-- ===================== 05 שלבי עבודה ===================== -->
   <section>
-    <div class="section-head"><span class="section-num">05</span><h2>מתנות לפרויקט</h2></div>
-    <p style="margin-bottom:14px;">האתר יעלה על גבי הדומיין והאחסון הקיימים של אלטל, ולכן ההצעה אינה כוללת חבילת אחסון.</p>
-    <div class="gift-row">
-      <div class="gift-card">
-        <div class="gift-label">מתנה</div>
-        <div class="gift-title">בדיקת אבטחה חוזרת, 30 יום לאחר ההשקה</div>
-        <div class="gift-value">שווי 400 ₪</div>
-      </div>
-      <div class="gift-card">
-        <div class="gift-label">מתנה</div>
-        <div class="gift-title">סבב אופטימיזציית מהירות נוסף בחודש הראשון</div>
-        <div class="gift-value">שווי 500 ₪</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== 06 שלבי עבודה ===================== -->
-  <section>
-    <div class="section-head"><span class="section-num">06</span><h2>שלבי עבודה</h2></div>
+    <div class="section-head"><span class="section-num">05</span><h2>שלבי עבודה</h2></div>
     <ol class="numbered-steps">
       <li><div class="step-body"><strong>חתימה והתחלה.</strong> חתימה על הסכם זה, הסדרת תשלום ראשוני, תיאום מועד לפגישת אפיון וקבלת גישה לדומיין ולאחסון הקיימים.</div></li>
       <li><div class="step-body"><strong>אפיון ואסטרטגיה.</strong> שיחה להבנת החברה, קהל היעד המוסדי-ביטחוני ומבנה 18 עמודי האתר, ואישור עצי ניווט לעברית ולאנגלית.</div></li>
@@ -951,7 +931,7 @@
 
   <!-- ===================== 07 תשלום ===================== -->
   <section>
-    <div class="section-head"><span class="section-num">07</span><h2>תנאי תשלום</h2></div>
+    <div class="section-head"><span class="section-num">06</span><h2>תנאי תשלום</h2></div>
     <div class="payment-box">
       <div class="pay-split"><div class="pct">50%</div><div class="desc">מקדמה לאחר חתימה על ההסכם, כתנאי לתחילת העבודה</div></div>
       <div class="pay-divider"></div>
@@ -962,15 +942,15 @@
 
   <!-- ===================== 08 תנאי ההזמנה ===================== -->
   <section>
-    <div class="section-head"><span class="section-num">08</span><h2>תנאי ההזמנה</h2></div>
+    <div class="section-head"><span class="section-num">07</span><h2>תנאי ההזמנה</h2></div>
     <ol class="terms-list">
       <li>תוקף הצעה זו למשך 30 ימים בלבד.</li>
       <li>הדומיין והאחסון הקיימים של אלטל טכנולוגיסטיקה יישארו בבעלות ובניהול הלקוח. הסטודיו יבצע את הבנייה מחדש על גביהם בלבד, ללא רכישת דומיין או אחסון חדשים.</li>
       <li>כל הטקסטים, התמונות והסרטונים בעברית ובאנגלית יסופקו ע"י הלקוח, מוכנים לפרסום. כתיבת תוכן ותרגום אינם כלולים בהצעה.</li>
       <li>עמוד יצירת קשר יכלול טופס פנייה. עמוד דרושים אינו כלול בשלב זה, וניתן להוסיפו כתוספת (ראה סעיף 04).</li>
-      <li>מספר סבבי התיקונים הכלולים תלוי בחבילה שנבחרה (ראה טבלת ההשוואה). שינויים מעבר למכסה הכלולה יחויבו בתשלום נפרד לפי תעריף של 220 ₪ לשעת עבודה.</li>
+      <li>מספר סבבי התיקונים הכלולים תלוי בחבילה שנבחרה (ראה טבלת ההשוואה). שינויים מעבר למכסה הכלולה יחויבו בתשלום נפרד לפי תעריף של 250 ₪ לשעת עבודה.</li>
       <li>עמידה בלוח הזמנים להשלמה עד אמצע ספטמבר 2026 מותנית בקבלת מלוא החומרים ואישור הסקיצות במועד. עיכוב מצד הלקוח עלול לדחות את מועד ההשקה.</li>
-      <li>במקרה של ביטול בכל שלב, הלקוח ישלם עבור שעות העבודה שבוצעו בפועל (לפי תעריף של 220 ₪ לשעה).</li>
+      <li>במקרה של ביטול בכל שלב, הלקוח ישלם עבור שעות העבודה שבוצעו בפועל (לפי תעריף של 250 ₪ לשעה).</li>
       <li>זכויות הקוד באתר יועברו ללקוח רק לאחר ביצוע התשלום המלא.</li>
       <li>יתווסף קרדיט בתחתית האתר: "Matara.Studio".</li>
       <li>מובהר כי אין התחייבות לציון מסוים בכלי בדיקה חיצוניים, לרבות PageSpeed Insights או כלים דומים. עם זאת, הסטודיו ייעשה מאמץ להביא את ביצועי האתר לרמה טובה ככל שהדבר מתאפשר.</li>
@@ -990,7 +970,7 @@
 
   <!-- ===================== 09 אישור ההצעה ===================== -->
   <section id="approval">
-    <div class="section-head"><span class="section-num">09</span><h2>אישור ההצעה</h2></div>
+    <div class="section-head"><span class="section-num">08</span><h2>אישור ההצעה</h2></div>
     <p style="font-size:13px;color:var(--ink-soft);margin-bottom:16px;">אני מאשר שקראתי את הצעת המחיר ושכל הפרטים המופיעים במסמך מקובלים עליי:</p>
 
     <div class="sign-grid">
